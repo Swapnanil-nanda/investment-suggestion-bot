@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Investment Suggestion Bot - AI-powered investment advisor for smarter portfolio decisions in Indian markets">
+    <title>Investment Suggestion Bot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- ===================== LOGIN PAGE ===================== -->
+    <section id="page-login" class="page">
+        <div class="auth-container">
+            <div class="auth-hero">
+                <h1 class="auth-title">Investment Suggestion Bot</h1>
+                <p class="auth-subtitle">Your AI-powered investment advisor for smarter portfolio decisions</p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon feature-icon--trend">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                        </div>
+                        <div>
+                            <h3>Live Market Sync</h3>
+                            <p>Real-time data from global markets including stocks, crypto, and precious metals</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon feature-icon--portfolio">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <h3>Smart Portfolio Creator</h3>
+                            <p>Automated asset allocation based on your risk profile and investment goals</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon feature-icon--risk">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div>
+                            <h3>Risk Management</h3>
+                            <p>Personalized strategies that balance growth potential with your comfort level</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disclaimer-box">
+                    <span class="disclaimer-label">Disclaimer:</span> All investment suggestions are data-driven and carry market risks. This bot does not guarantee financial gains. Please invest responsibly.
+                </div>
+            </div>
+
+            <div class="auth-form-wrapper">
+                <div class="auth-card">
+                    <h2>Welcome Back</h2>
+                    <p class="auth-card-subtitle">Enter your credentials to access your investment dashboard</p>
+
+                    <form id="login-form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                        <div id="login-error" class="form-error" style="display:none;"></div>
+                        <button type="submit" class="btn btn-primary btn-full" id="btn-login">Sign In</button>
+                    </form>
+
+                    <p class="auth-link">Don't have an account? <a href="#" id="goto-signup">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SIGNUP PAGE ===================== -->
+    <section id="page-signup" class="page">
+        <div class="auth-container">
+            <div class="auth-hero">
+                <h1 class="auth-title">Investment Suggestion Bot</h1>
+                <p class="auth-subtitle">Your AI-powered investment advisor for smarter portfolio decisions</p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon feature-icon--trend">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                        </div>
+                        <div>
+                            <h3>Live Market Sync</h3>
+                            <p>Real-time data from global markets including stocks, crypto, and precious metals</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon feature-icon--portfolio">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <h3>Smart Portfolio Creator</h3>
+                            <p>Automated asset allocation based on your risk profile and investment goals</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon feature-icon--risk">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div>
+                            <h3>Risk Management</h3>
+                            <p>Personalized strategies that balance growth potential with your comfort level</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disclaimer-box">
+                    <span class="disclaimer-label">Disclaimer:</span> All investment suggestions are data-driven and carry market risks. This bot does not guarantee financial gains. Please invest responsibly.
+                </div>
+            </div>
+
+            <div class="auth-form-wrapper">
+                <div class="auth-card">
+                    <h2>Create Account</h2>
+                    <p class="auth-card-subtitle">Sign up to start building your investment portfolio</p>
+
+                    <form id="signup-form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Min 6 characters" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" placeholder="••••••••" required>
+                        </div>
+                        <div id="signup-error" class="form-error" style="display:none;"></div>
+                        <button type="submit" class="btn btn-primary btn-full" id="btn-signup">Create Account</button>
+                    </form>
+
+                    <p class="auth-link">Already have an account? <a href="#" id="goto-login">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RISK ASSESSMENT ===================== -->
+    <section id="page-risk" class="page">
+        <div class="risk-container">
+            <div class="risk-card">
+                <div class="risk-header">
+                    <div>
+                        <h2>Risk Assessment & Preferences</h2>
+                        <p class="risk-step-label">Step <span id="risk-step-num">1</span> of 4</p>
+                    </div>
+                    <span class="risk-percent" id="risk-percent">25%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="risk-progress" style="width: 25%"></div>
+                </div>
+
+                <!-- Step 1: Budget -->
+                <div class="risk-step" id="risk-step-1">
+                    <h3 class="step-title">Investment Budget (₹)</h3>
+                    <input type="number" id="risk-budget" class="risk-input" placeholder="e.g., 500000" min="1000">
+                    <p class="step-hint">Enter the total amount you plan to invest in Indian Rupees</p>
+                </div>
+
+                <!-- Step 2: Risk Tolerance -->
+                <div class="risk-step" id="risk-step-2" style="display:none;">
+                    <h3 class="step-title">Risk Tolerance</h3>
+                    <div class="radio-cards">
+                        <label class="radio-card">
+                            <input type="radio" name="risk-tolerance" value="conservative">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Conservative</span>
+                                <span class="radio-card-desc">Prioritize capital preservation with minimal risk (lower returns, higher stability)</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="risk-tolerance" value="balanced">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Balanced</span>
+                                <span class="radio-card-desc">Mix of growth and stability with moderate risk (balanced returns and risk)</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="risk-tolerance" value="aggressive">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Aggressive</span>
+                                <span class="radio-card-desc">Maximize growth potential with higher risk (higher returns, higher volatility)</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 3: Goals & Time Horizon -->
+                <div class="risk-step" id="risk-step-3" style="display:none;">
+                    <h3 class="step-title">Investment Goal</h3>
+                    <div class="radio-cards">
+                        <label class="radio-card">
+                            <input type="radio" name="invest-goal" value="wealth">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Wealth Building</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="invest-goal" value="retirement">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Retirement Planning</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="invest-goal" value="income">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Generate Income</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="invest-goal" value="preservation">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Capital Preservation</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <h3 class="step-title" style="margin-top:24px;">Investment Time Horizon</h3>
+                    <div class="radio-cards">
+                        <label class="radio-card">
+                            <input type="radio" name="time-horizon" value="short">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Short-term (1-3 years)</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="time-horizon" value="medium">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Medium-term (3-7 years)</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="time-horizon" value="long">
+                            <div class="radio-card-content">
+                                <span class="radio-card-label">Long-term (7+ years)</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 4: Asset Allocation -->
+                <div class="risk-step" id="risk-step-4" style="display:none;">
+                    <h3 class="step-title">Asset Allocation Preferences</h3>
+                    <p class="step-hint">Adjust the sliders to set your preferred allocation. Total must equal 100%.</p>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span class="slider-label">Stocks</span>
+                            <span class="slider-value" id="stocks-val">40%</span>
+                        </div>
+                        <input type="range" id="slider-stocks" class="custom-slider" min="0" max="100" value="40">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span class="slider-label">Precious Metals (Gold, Silver)</span>
+                            <span class="slider-value" id="metals-val">30%</span>
+                        </div>
+                        <input type="range" id="slider-metals" class="custom-slider" min="0" max="100" value="30">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span class="slider-label">Cryptocurrency</span>
+                            <span class="slider-value" id="crypto-val">30%</span>
+                        </div>
+                        <input type="range" id="slider-crypto" class="custom-slider" min="0" max="100" value="30">
+                    </div>
+
+                    <div class="allocation-total">
+                        <span>Total Allocation:</span>
+                        <span class="total-val" id="total-allocation">100%</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="risk-nav">
+                    <button class="btn btn-outline" id="risk-back" style="display:none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        Back
+                    </button>
+                    <button class="btn btn-primary" id="risk-next">
+                        Next
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer Footer -->
+        <footer class="risk-disclaimer-footer">
+            <p class="disclaimer-text">⚠️ <strong>Disclaimer:</strong> All investment suggestions are for educational purposes only and not professional financial advice. This bot does not execute real financial transactions. Please invest responsibly.</p>
+        </footer>
+    </section>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section id="page-dashboard" class="page">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Investment Dashboard</h1>
+                <p>Welcome back! Here's your personalized investment strategy</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline btn-sm" id="btn-profile">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    My Profile
+                </button>
+                <button class="btn btn-outline btn-sm" id="btn-preferences">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Preferences
+                </button>
+                <button class="btn btn-outline btn-sm" id="btn-logout">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Strategy Overview Card -->
+            <div class="strategy-card" id="strategy-overview">
+                <div class="strategy-card-header">
+                    <div>
+                        <h2 id="strategy-name">Balanced Growth Strategy</h2>
+                        <p class="strategy-desc" id="strategy-desc">Optimal mix of growth and stability for moderate returns</p>
+                    </div>
+                    <span class="risk-badge" id="strategy-badge">Balanced Risk</span>
+                </div>
+                <div class="strategy-metrics">
+                    <div class="metric">
+                        <span class="metric-label">Investment Budget</span>
+                        <span class="metric-value" id="metric-budget">₹5,00,000</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Expected Annual Return</span>
+                        <span class="metric-value metric-value--green" id="metric-return">10% - 15%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Projected Value (1 year)</span>
+                        <span class="metric-value" id="metric-projected">₹5,75,000</span>
+                    </div>
+                </div>
+                <p class="strategy-disclaimer">ℹ️ This strategy is an educational suggestion — not professional financial advice.</p>
+                <button class="btn btn-primary" id="btn-view-portfolio">View Detailed Portfolio Summary</button>
+            </div>
+
+            <!-- Strategy Insights: Benefits & Risks (SRS §4.3) -->
+            <div class="card strategy-insights-card" id="strategy-insights">
+                <div class="card-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                    <h3>Strategy Insights</h3>
+                </div>
+                <p class="card-subtitle">Understand the potential benefits and risks of your recommended strategy</p>
+                <div class="insights-grid">
+                    <div class="insights-column insights-benefits">
+                        <h4 class="insights-heading insights-heading--green">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Potential Benefits
+                        </h4>
+                        <ul class="insights-list" id="insights-benefits-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                    <div class="insights-column insights-risks">
+                        <h4 class="insights-heading insights-heading--amber">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            Common Risks
+                        </h4>
+                        <ul class="insights-list" id="insights-risks-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Asset Allocation -->
+            <div class="card" id="allocation-section">
+                <div class="card-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <h3>Recommended Asset Allocation</h3>
+                </div>
+                <div class="allocation-layout">
+                    <div class="chart-container">
+                        <canvas id="allocation-chart" width="300" height="300"></canvas>
+                    </div>
+                    <div class="allocation-list" id="allocation-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Tabs: Market Data | News -->
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" data-tab="market">📊 Market Data</button>
+                <button class="tab-btn" data-tab="news">📰 News Feed</button>
+            </div>
+
+            <!-- Market Data Section -->
+            <div class="tab-content" id="tab-market">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Live Market Data</h3>
+                        <div class="market-selector">
+                            <select id="market-select">
+                                <optgroup label="Indian Indices">
+                                    <option value="NSE:NIFTY" selected>Nifty 50</option>
+                                    <option value="BSE:SENSEX">Sensex</option>
+                                </optgroup>
+                                <optgroup label="Global Indices">
+                                    <option value="NASDAQ:NDX">NASDAQ</option>
+                                    <option value="SP:SPX">S&P 500</option>
+                                    <option value="KRX:KOSPI">KOSPI</option>
+                                </optgroup>
+                                <optgroup label="Precious Metals">
+                                    <option value="TVC:GOLD">Gold</option>
+                                    <option value="TVC:SILVER">Silver</option>
+                                </optgroup>
+                                <optgroup label="Cryptocurrency">
+                                    <option value="BINANCE:BTCINR">Bitcoin (BTC/INR)</option>
+                                    <option value="BINANCE:ETHINR">Ethereum (ETH/INR)</option>
+                                    <option value="BINANCE:BNBINR">BNB (BNB/INR)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="tradingview-widget" class="tradingview-container">
+                        <!-- TradingView widget loads here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- News Section -->
+            <div class="tab-content" id="tab-news" style="display:none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Financial News</h3>
+                        <div class="news-filter">
+                            <select id="news-category">
+                                <option value="all">All News</option>
+                                <option value="stocks">Stocks</option>
+                                <option value="crypto">Cryptocurrency</option>
+                                <option value="metals">Precious Metals</option>
+                                <option value="economy">Economy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="news-container" class="news-grid">
+                        <div class="news-loading">
+                            <div class="spinner"></div>
+                            <p>Loading latest financial news...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer Footer -->
+        <footer class="dashboard-footer">
+            <p class="disclaimer-text">⚠️ <strong>Disclaimer:</strong> All investment suggestions are for educational purposes only and not professional financial advice. This bot does not execute real financial transactions. Please invest responsibly.</p>
+        </footer>
+    </section>
+
+    <!-- ===================== PORTFOLIO SUMMARY (Modal/Page) ===================== -->
+    <section id="page-portfolio" class="page">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Portfolio Summary</h1>
+                <p>Detailed breakdown of your investment strategy</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline btn-sm" id="btn-back-dashboard">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="portfolio-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <span class="stat-label">Initial Investment</span>
+                    <span class="stat-value" id="stat-initial">₹5,00,000</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--green">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                    </div>
+                    <span class="stat-label">Expected Return</span>
+                    <span class="stat-value stat-value--green" id="stat-return">10% - 15%</span>
+                    <span class="stat-sub">Annual return rate</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--blue">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    </div>
+                    <span class="stat-label">Potential Gain (1Y)</span>
+                    <span class="stat-value stat-value--green" id="stat-gain">₹75,000</span>
+                    <span class="stat-sub" id="stat-gain-sub">Up to ₹75,000</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <span class="stat-label">Time Horizon</span>
+                    <span class="stat-value stat-value--blue" id="stat-horizon">Medium</span>
+                    <span class="stat-sub" id="stat-horizon-sub">3-7 years</span>
+                </div>
+            </div>
+
+            <!-- Strategy Banner -->
+            <div class="strategy-card">
+                <div class="strategy-card-header">
+                    <div>
+                        <h2 id="portfolio-strategy-name">Balanced Growth Strategy</h2>
+                        <p class="strategy-desc" id="portfolio-strategy-desc">Optimal mix of growth and stability for moderate returns</p>
+                    </div>
+                    <span class="risk-badge" id="portfolio-risk-badge">Balanced Risk</span>
+                </div>
+                <p class="strategy-disclaimer">ℹ️ This strategy is an educational suggestion — not professional financial advice.</p>
+            </div>
+
+            <!-- Strategy Insights on Portfolio Page -->
+            <div class="card strategy-insights-card" id="portfolio-strategy-insights">
+                <div class="card-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                    <h3>Strategy Insights</h3>
+                </div>
+                <p class="card-subtitle">Understand the potential benefits and risks of your recommended strategy</p>
+                <div class="insights-grid">
+                    <div class="insights-column insights-benefits">
+                        <h4 class="insights-heading insights-heading--green">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Potential Benefits
+                        </h4>
+                        <ul class="insights-list" id="portfolio-benefits-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                    <div class="insights-column insights-risks">
+                        <h4 class="insights-heading insights-heading--amber">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            Common Risks
+                        </h4>
+                        <ul class="insights-list" id="portfolio-risks-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asset Distribution + Investment Breakdown -->
+            <div class="portfolio-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                        <h3>Asset Distribution</h3>
+                    </div>
+                    <p class="card-subtitle">Visual breakdown of your portfolio allocation</p>
+                    <div class="chart-container">
+                        <canvas id="portfolio-pie-chart" width="320" height="320"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Investment Breakdown</h3>
+                    <p class="card-subtitle">Detailed allocation by asset class</p>
+                    <div class="breakdown-list" id="breakdown-list">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="portfolio-total">
+                        <span>Total Portfolio Value</span>
+                        <span class="total-amount" id="total-portfolio-value">₹5,00,000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projected Growth Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                    <h3>Projected Growth</h3>
+                </div>
+                <p class="card-subtitle">Estimated portfolio value over time (based on expected returns)</p>
+                <div class="growth-chart-container">
+                    <canvas id="growth-chart" width="800" height="300"></canvas>
+                </div>
+                <div class="growth-timeline" id="growth-timeline">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <footer class="dashboard-footer">
+            <p class="disclaimer-text">⚠️ <strong>Disclaimer:</strong> All projections are estimates based on historical data and do not guarantee future returns. This is for educational purposes only.</p>
+        </footer>
+    </section>
+
+    <!-- ===================== USER PROFILE PAGE ===================== -->
+    <section id="page-profile" class="page">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>My Profile</h1>
+                <p>Manage your account, view risk profile, and update settings</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline btn-sm" id="btn-profile-back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- User Info Card -->
+            <div class="profile-card">
+                <div class="profile-avatar" id="profile-avatar">JD</div>
+                <div class="profile-info">
+                    <h2 id="profile-name">John Doe</h2>
+                    <p class="profile-email" id="profile-email">john@example.com</p>
+                    <p class="profile-joined" id="profile-joined">Member since April 2026</p>
+                </div>
+            </div>
+
+            <!-- Risk Profile Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <h3>Risk Profile Summary</h3>
+                </div>
+                <p class="card-subtitle">Your current risk assessment results</p>
+                <div class="profile-risk-grid" id="profile-risk-grid">
+                    <div class="profile-risk-item">
+                        <span class="profile-risk-label">Sentiment Score</span>
+                        <span class="profile-risk-value" id="profile-sentiment-score">5.0</span>
+                    </div>
+                    <div class="profile-risk-item">
+                        <span class="profile-risk-label">Risk Category</span>
+                        <span class="profile-risk-value profile-risk-badge" id="profile-risk-category">Balanced</span>
+                    </div>
+                    <div class="profile-risk-item">
+                        <span class="profile-risk-label">Risk Tolerance</span>
+                        <span class="profile-risk-value" id="profile-tolerance">Balanced</span>
+                    </div>
+                    <div class="profile-risk-item">
+                        <span class="profile-risk-label">Investment Goal</span>
+                        <span class="profile-risk-value" id="profile-goal">Wealth Building</span>
+                    </div>
+                    <div class="profile-risk-item">
+                        <span class="profile-risk-label">Time Horizon</span>
+                        <span class="profile-risk-value" id="profile-horizon">Medium-term</span>
+                    </div>
+                    <div class="profile-risk-item">
+                        <span class="profile-risk-label">Investment Budget</span>
+                        <span class="profile-risk-value" id="profile-budget">₹5,00,000</span>
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="btn-retake-risk" style="margin-top: 20px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                    Retake Risk Assessment
+                </button>
+            </div>
+
+            <!-- Account Settings Grid -->
+            <div class="profile-settings-grid">
+                <!-- Change Password -->
+                <div class="card">
+                    <div class="card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <h3>Change Password</h3>
+                    </div>
+                    <p class="card-subtitle">Update your account password</p>
+                    <form id="change-password-form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" placeholder="Min 6 characters" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-new-password">Confirm New Password</label>
+                            <input type="password" id="confirm-new-password" placeholder="••••••••" required>
+                        </div>
+                        <div id="password-change-msg" class="form-message" style="display:none;"></div>
+                        <button type="submit" class="btn btn-primary" id="btn-change-password">Update Password</button>
+                    </form>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="card card--danger">
+                    <div class="card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <h3>Danger Zone</h3>
+                    </div>
+                    <p class="card-subtitle">Irreversible actions — proceed with caution</p>
+                    <div class="danger-action">
+                        <div>
+                            <h4>Delete Account</h4>
+                            <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+                        </div>
+                        <button class="btn btn-danger" id="btn-delete-account">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="dashboard-footer">
+            <p class="disclaimer-text">⚠️ <strong>Disclaimer:</strong> All investment suggestions are for educational purposes only and not professional financial advice. This bot does not execute real financial transactions.</p>
+        </footer>
+    </section>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal-overlay" id="delete-modal" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-icon modal-icon--danger">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <h3>Delete Account?</h3>
+            <p>This will permanently delete your account, risk profile, and all data. This cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="btn-cancel-delete">Cancel</button>
+                <button class="btn btn-danger" id="btn-confirm-delete">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts (loaded in dependency order) -->
+    <script src="js/auth.js"></script>
+    <script src="js/risk.js"></script>
+    <script src="js/strategies.js"></script>
+    <script src="js/market.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

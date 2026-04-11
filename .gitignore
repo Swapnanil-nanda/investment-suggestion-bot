@@ -1,0 +1,9 @@
+cloudflared.exe
+*.zip
+server.ps1
+deploy-netlify.js
+netlify-deploy.zip
+deploy.zip
+*.txt
+.gemini/
+node_modules/
