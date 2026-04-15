@@ -6,8 +6,8 @@ const Dashboard = (() => {
     let currentProfile = null;
     let currentStrategy = null;
 
-    function init() {
-        const profile = Auth.getRiskProfile();
+    async function init() {
+        const profile = await Auth.getRiskProfile();
         if (!profile) {
             App.navigate('risk');
             return;
@@ -128,8 +128,8 @@ const Dashboard = (() => {
         `).join('');
     }
 
-    function initPortfolio() {
-        const profile = Auth.getRiskProfile();
+    async function initPortfolio() {
+        const profile = await Auth.getRiskProfile();
         if (!profile) {
             App.navigate('risk');
             return;
@@ -150,19 +150,37 @@ const Dashboard = (() => {
     function renderPortfolioStats() {
         const budget = currentProfile.budget;
         const strategy = currentStrategy;
-        const avgReturn = (strategy.returnRange[0] + strategy.returnRange[1]) / 2 / 100;
-        const gain1Y = Math.round(budget * avgReturn);
+        const horizon = currentProfile.horizon;
+        const projections = Strategies.calculateProjectedReturns(budget, strategy, horizon);
 
+        // Basic stats
         document.getElementById('stat-initial').textContent = formatINR(budget);
         document.getElementById('stat-return').textContent = `${strategy.returnRange[0]}% - ${strategy.returnRange[1]}%`;
-        document.getElementById('stat-gain').textContent = formatINR(gain1Y);
-        document.getElementById('stat-gain-sub').textContent = `Up to ${formatINR(Math.round(budget * strategy.returnRange[1] / 100))}`;
+
+        // Potential Gain for 1 Year (range)
+        const gain1Y = projections[1];
+        document.getElementById('stat-gain').textContent = `${formatINR(gain1Y.gain_worst)} – ${formatINR(gain1Y.gain_best)}`;
+        document.getElementById('stat-gain-sub').textContent = `Expected: ${formatINR(gain1Y.gain_expected)}`;
 
         // Time horizon
         const horizonMap = { short: 'Short', medium: 'Medium', long: 'Long' };
         const horizonSubMap = { short: '1-3 years', medium: '3-7 years', long: '7+ years' };
-        document.getElementById('stat-horizon').textContent = horizonMap[currentProfile.horizon] || 'Medium';
-        document.getElementById('stat-horizon-sub').textContent = horizonSubMap[currentProfile.horizon] || '3-7 years';
+        const horizonYearsMap = { short: 3, medium: 7, long: 10 };
+        document.getElementById('stat-horizon').textContent = horizonMap[horizon] || 'Medium';
+        document.getElementById('stat-horizon-sub').textContent = horizonSubMap[horizon] || '3-7 years';
+
+        // Projected value for the investment horizon (in ranges)
+        const targetYears = horizonYearsMap[horizon] || 7;
+        const projForHorizon = projections[targetYears];
+        if (projForHorizon) {
+            const label = document.getElementById('stat-projected-label');
+            const value = document.getElementById('stat-projected-value');
+            const sub = document.getElementById('stat-projected-sub');
+
+            if (label) label.textContent = `Projected Value (${targetYears} Year${targetYears > 1 ? 's' : ''})`;
+            if (value) value.textContent = `${formatINR(projForHorizon.worst)} – ${formatINR(projForHorizon.best)}`;
+            if (sub) sub.textContent = `Expected: ${formatINR(projForHorizon.expected)}`;
+        }
     }
 
     function renderPortfolioStrategy() {
@@ -256,7 +274,8 @@ const Dashboard = (() => {
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        const projections = Strategies.calculateProjectedReturns(currentProfile.budget, currentStrategy);
+        const horizon = currentProfile.horizon;
+        const projections = Strategies.calculateProjectedReturns(currentProfile.budget, currentStrategy, horizon);
 
         const width = 800;
         const height = 300;
@@ -270,28 +289,19 @@ const Dashboard = (() => {
         const chartWidth = width - padding.left - padding.right;
         const chartHeight = height - padding.top - padding.bottom;
 
-        // Data points: Year 0, 1, 3, 5, 10
-        const years = [0, 1, 3, 5, 10];
-        const expectedValues = [
-            currentProfile.budget,
-            projections[1].expected,
-            projections[3].expected,
-            projections[5].expected,
-            projections[10].expected
-        ];
-        const bestValues = [
-            currentProfile.budget,
-            projections[1].best,
-            projections[3].best,
-            projections[5].best,
-            projections[10].best
-        ];
+        // Build data points from projections
+        const projYears = Object.keys(projections).map(Number).sort((a, b) => a - b);
+        const years = [0, ...projYears];
+        const expectedValues = [currentProfile.budget, ...projYears.map(y => projections[y].expected)];
+        const bestValues = [currentProfile.budget, ...projYears.map(y => projections[y].best)];
+        const worstValues = [currentProfile.budget, ...projYears.map(y => projections[y].worst)];
 
+        const maxYear = Math.max(...years);
         const maxVal = Math.max(...bestValues) * 1.1;
         const minVal = 0;
 
         function xPos(year) {
-            return padding.left + (year / 10) * chartWidth;
+            return padding.left + (year / maxYear) * chartWidth;
         }
         function yPos(val) {
             return padding.top + chartHeight - ((val - minVal) / (maxVal - minVal)) * chartHeight;
@@ -323,6 +333,17 @@ const Dashboard = (() => {
             ctx.fillText(`${year}Y`, xPos(year), height - padding.bottom + 25);
         });
 
+        // Worst case area (light red fill)
+        ctx.beginPath();
+        ctx.moveTo(xPos(0), yPos(worstValues[0]));
+        worstValues.forEach((val, i) => ctx.lineTo(xPos(years[i]), yPos(val)));
+        expectedValues.slice().reverse().forEach((val, i) => {
+            ctx.lineTo(xPos(years[years.length - 1 - i]), yPos(val));
+        });
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.05)';
+        ctx.fill();
+
         // Best case area (light green fill)
         ctx.beginPath();
         ctx.moveTo(xPos(0), yPos(bestValues[0]));
@@ -333,6 +354,16 @@ const Dashboard = (() => {
         ctx.closePath();
         ctx.fillStyle = 'rgba(34, 197, 94, 0.08)';
         ctx.fill();
+
+        // Worst case line (dashed red)
+        ctx.beginPath();
+        ctx.moveTo(xPos(0), yPos(worstValues[0]));
+        worstValues.forEach((val, i) => ctx.lineTo(xPos(years[i]), yPos(val)));
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.3)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
 
         // Best case line
         ctx.beginPath();
@@ -378,12 +409,15 @@ const Dashboard = (() => {
         const container = document.getElementById('growth-timeline');
         if (!container) return;
 
-        const projections = Strategies.calculateProjectedReturns(currentProfile.budget, currentStrategy);
+        const horizon = currentProfile.horizon;
+        const projections = Strategies.calculateProjectedReturns(currentProfile.budget, currentStrategy, horizon);
+        const projYears = Object.keys(projections).map(Number).sort((a, b) => a - b);
 
-        container.innerHTML = [1, 3, 5, 10].map(year => `
+        container.innerHTML = projYears.map(year => `
             <div class="timeline-item">
                 <div class="timeline-label">${year} Year${year > 1 ? 's' : ''}</div>
                 <div class="timeline-value">${formatINR(projections[year].expected)}</div>
+                <div class="timeline-range">${formatINR(projections[year].worst)} – ${formatINR(projections[year].best)}</div>
             </div>
         `).join('');
     }

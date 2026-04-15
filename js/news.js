@@ -110,12 +110,13 @@ const News = (() => {
 
     function renderFallbackNews() {
         // Realistic fallback news for when API is unavailable
+        // These link to real financial news websites
         const fallbackArticles = getFallbackArticles();
         const container = document.getElementById('news-container');
         if (!container) return;
 
         container.innerHTML = fallbackArticles.map(article => `
-            <a href="#" class="news-card" onclick="event.preventDefault()">
+            <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="news-card">
                 <h4>${article.title}</h4>
                 <div class="news-card-meta">
                     <span class="news-source">${article.source}</span>
@@ -126,31 +127,30 @@ const News = (() => {
     }
 
     function getFallbackArticles() {
-        const now = new Date();
         const articles = {
             conservative: [
-                { title: 'RBI Keeps Repo Rate Unchanged: What It Means for Fixed Income Investors', source: 'Economic Times', time: '2 hours ago' },
-                { title: 'Gold Prices Rise to ₹72,500/10g as Global Uncertainties Mount', source: 'Moneycontrol', time: '3 hours ago' },
-                { title: 'Top 5 Blue-Chip Stocks That Have Consistently Paid Dividends', source: 'Livemint', time: '5 hours ago' },
-                { title: 'Government Bond Yields Stabilize at 7.2%: Safe Haven for Conservative Investors', source: 'Business Standard', time: '6 hours ago' },
-                { title: 'SBI Fixed Deposit Rates 2024: Best Options for Risk-Averse Investors', source: 'Financial Express', time: '8 hours ago' },
-                { title: 'Nifty 50 Shows Resilience Despite Global Sell-Off', source: 'NDTV Profit', time: '10 hours ago' }
+                { title: 'RBI Keeps Repo Rate Unchanged: What It Means for Fixed Income Investors', source: 'Economic Times', time: '2 hours ago', url: 'https://economictimes.indiatimes.com/markets' },
+                { title: 'Gold Prices Rise to ₹72,500/10g as Global Uncertainties Mount', source: 'Moneycontrol', time: '3 hours ago', url: 'https://www.moneycontrol.com/commodity/gold-price.html' },
+                { title: 'Top 5 Blue-Chip Stocks That Have Consistently Paid Dividends', source: 'Livemint', time: '5 hours ago', url: 'https://www.livemint.com/market/stock-market-news' },
+                { title: 'Government Bond Yields Stabilize at 7.2%: Safe Haven for Conservative Investors', source: 'Business Standard', time: '6 hours ago', url: 'https://www.business-standard.com/markets' },
+                { title: 'SBI Fixed Deposit Rates 2024: Best Options for Risk-Averse Investors', source: 'Financial Express', time: '8 hours ago', url: 'https://www.financialexpress.com/money/fixed-deposit/' },
+                { title: 'Nifty 50 Shows Resilience Despite Global Sell-Off', source: 'NDTV Profit', time: '10 hours ago', url: 'https://www.ndtvprofit.com/markets' }
             ],
             balanced: [
-                { title: 'Nifty 50 Crosses 24,000 Mark: Analysts Predict Further Upside', source: 'Economic Times', time: '1 hour ago' },
-                { title: 'Sensex Rally Continues: IT and Banking Stocks Lead the Charge', source: 'Moneycontrol', time: '2 hours ago' },
-                { title: 'Gold vs Stocks: How to Balance Your Portfolio in Current Market', source: 'Livemint', time: '4 hours ago' },
-                { title: 'Bitcoin Crosses ₹55 Lakh Mark as Indian Crypto Investors Return', source: 'CoinDesk', time: '5 hours ago' },
-                { title: 'Mid-Cap Mutual Funds Deliver 25% Returns: Should You Invest?', source: 'Business Standard', time: '7 hours ago' },
-                { title: 'Foreign Institutional Investors Pump ₹5,000 Cr into Indian Markets', source: 'Financial Express', time: '9 hours ago' }
+                { title: 'Nifty 50 Crosses 24,000 Mark: Analysts Predict Further Upside', source: 'Economic Times', time: '1 hour ago', url: 'https://economictimes.indiatimes.com/markets/stocks' },
+                { title: 'Sensex Rally Continues: IT and Banking Stocks Lead the Charge', source: 'Moneycontrol', time: '2 hours ago', url: 'https://www.moneycontrol.com/stocksmarketsindia/' },
+                { title: 'Gold vs Stocks: How to Balance Your Portfolio in Current Market', source: 'Livemint', time: '4 hours ago', url: 'https://www.livemint.com/money/personal-finance' },
+                { title: 'Bitcoin Crosses ₹55 Lakh Mark as Indian Crypto Investors Return', source: 'CoinDesk', time: '5 hours ago', url: 'https://www.coindesk.com/markets/' },
+                { title: 'Mid-Cap Mutual Funds Deliver 25% Returns: Should You Invest?', source: 'Business Standard', time: '7 hours ago', url: 'https://www.business-standard.com/mutual-fund' },
+                { title: 'Foreign Institutional Investors Pump ₹5,000 Cr into Indian Markets', source: 'Financial Express', time: '9 hours ago', url: 'https://www.financialexpress.com/market/' }
             ],
             aggressive: [
-                { title: 'Small-Cap Stocks Surge 15% in a Month: Top Picks for Aggressive Investors', source: 'Economic Times', time: '1 hour ago' },
-                { title: 'Ethereum Breaks ₹3 Lakh Barrier: Is the Next Crypto Bull Run Here?', source: 'CoinDesk', time: '2 hours ago' },
-                { title: 'Top 5 IPOs to Watch This Quarter: Growth Opportunities Ahead', source: 'Moneycontrol', time: '3 hours ago' },
-                { title: 'Indian Unicorn Startups Deliver 40% Returns to Early Investors', source: 'Livemint', time: '5 hours ago' },
-                { title: 'Solana and Polygon Tokens Rally as DeFi Adoption Grows in India', source: 'CryptoNews', time: '6 hours ago' },
-                { title: 'NASDAQ Hits All-Time High: Tech Stocks Continue to Dominate', source: 'Reuters', time: '8 hours ago' }
+                { title: 'Small-Cap Stocks Surge 15% in a Month: Top Picks for Aggressive Investors', source: 'Economic Times', time: '1 hour ago', url: 'https://economictimes.indiatimes.com/markets/stocks' },
+                { title: 'Ethereum Breaks ₹3 Lakh Barrier: Is the Next Crypto Bull Run Here?', source: 'CoinDesk', time: '2 hours ago', url: 'https://www.coindesk.com/markets/' },
+                { title: 'Top 5 IPOs to Watch This Quarter: Growth Opportunities Ahead', source: 'Moneycontrol', time: '3 hours ago', url: 'https://www.moneycontrol.com/ipo/' },
+                { title: 'Indian Unicorn Startups Deliver 40% Returns to Early Investors', source: 'Livemint', time: '5 hours ago', url: 'https://www.livemint.com/companies/start-ups' },
+                { title: 'Solana and Polygon Tokens Rally as DeFi Adoption Grows in India', source: 'CryptoNews', time: '6 hours ago', url: 'https://cryptonews.com/' },
+                { title: 'NASDAQ Hits All-Time High: Tech Stocks Continue to Dominate', source: 'Reuters', time: '8 hours ago', url: 'https://www.reuters.com/markets/' }
             ]
         };
 

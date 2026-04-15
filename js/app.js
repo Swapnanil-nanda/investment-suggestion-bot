@@ -6,11 +6,14 @@ const App = (() => {
     const pages = ['login', 'signup', 'risk', 'dashboard', 'portfolio', 'profile'];
     let currentPage = 'login';
 
-    function init() {
+    async function init() {
+        // Initialize IndexedDB and migrate legacy data
+        await Auth.initDB();
+
         // Check session and route
         const session = Auth.getSession();
         if (session) {
-            const profile = Auth.getRiskProfile();
+            const profile = await Auth.getRiskProfile();
             if (profile) {
                 navigate('dashboard');
             } else {

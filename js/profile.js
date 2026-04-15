@@ -30,18 +30,18 @@ const Profile = (() => {
         aggressive: 'Aggressive'
     };
 
-    function init() {
+    async function init() {
         const session = Auth.getSession();
         if (!session) {
             App.navigate('login');
             return;
         }
 
-        renderUserInfo(session);
-        renderRiskSummary();
+        await renderUserInfo(session);
+        await renderRiskSummary();
     }
 
-    function renderUserInfo(session) {
+    async function renderUserInfo(session) {
         // Avatar initials
         const avatar = document.getElementById('profile-avatar');
         if (avatar && session.name) {
@@ -60,7 +60,7 @@ const Profile = (() => {
 
         // Joined date
         const joinedEl = document.getElementById('profile-joined');
-        const createdAt = Auth.getUserCreatedAt();
+        const createdAt = await Auth.getUserCreatedAt();
         if (joinedEl && createdAt) {
             const date = new Date(createdAt);
             const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -68,8 +68,8 @@ const Profile = (() => {
         }
     }
 
-    function renderRiskSummary() {
-        const profile = Auth.getRiskProfile();
+    async function renderRiskSummary() {
+        const profile = await Auth.getRiskProfile();
         if (!profile) {
             const grid = document.getElementById('profile-risk-grid');
             if (grid) {
@@ -162,10 +162,10 @@ const Profile = (() => {
         // Confirm delete
         const confirmBtn = document.getElementById('btn-confirm-delete');
         if (confirmBtn) {
-            confirmBtn.addEventListener('click', () => {
+            confirmBtn.addEventListener('click', async () => {
                 const modal = document.getElementById('delete-modal');
                 if (modal) modal.style.display = 'none';
-                Auth.deleteAccount();
+                await Auth.deleteAccount();
             });
         }
     }

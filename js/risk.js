@@ -6,18 +6,34 @@ const Risk = (() => {
     let currentStep = 1;
     const totalSteps = 4;
 
+    // Slider configuration: id suffix, label, default value
+    const sliderConfig = [
+        { id: 'equity', label: 'Equity', defaultVal: 30 },
+        { id: 'metals', label: 'Precious Metals (Gold, Silver)', defaultVal: 15 },
+        { id: 'crypto', label: 'Cryptocurrency', defaultVal: 10 },
+        { id: 'fd', label: 'FD (Fixed Deposits)', defaultVal: 15 },
+        { id: 'ppf', label: 'PPF (Public Provident Fund)', defaultVal: 10 },
+        { id: 'nps', label: 'NPS (National Pension System)', defaultVal: 10 },
+        { id: 'misc', label: 'Miscellaneous (Bonds, ULIP, etc.)', defaultVal: 10 }
+    ];
+
+    let isAdjusting = false; // Prevent recursive adjustments
+
     function init() {
         currentStep = 1;
         showStep(1);
         updateProgress();
-        // Reset slider values
-        const sliders = ['stocks', 'metals', 'crypto'];
-        const defaults = [40, 30, 30];
-        sliders.forEach((s, i) => {
-            const slider = document.getElementById(`slider-${s}`);
+
+        // Reset all slider and input values to defaults
+        sliderConfig.forEach(cfg => {
+            const slider = document.getElementById(`slider-${cfg.id}`);
+            const input = document.getElementById(`input-${cfg.id}`);
             if (slider) {
-                slider.value = defaults[i];
+                slider.value = cfg.defaultVal;
                 updateSliderBackground(slider);
+            }
+            if (input) {
+                input.value = cfg.defaultVal;
             }
         });
         updateSliderDisplay();
@@ -87,11 +103,7 @@ const Risk = (() => {
                 return true;
             }
             case 4: {
-                const total = getTotalAllocation();
-                if (total !== 100) {
-                    alert('Total allocation must equal 100%. Currently at ' + total + '%.');
-                    return false;
-                }
+                // Total is always 100% due to auto-adjustment
                 return true;
             }
         }
@@ -99,27 +111,23 @@ const Risk = (() => {
     }
 
     function getTotalAllocation() {
-        const stocks = parseInt(document.getElementById('slider-stocks')?.value || 0);
-        const metals = parseInt(document.getElementById('slider-metals')?.value || 0);
-        const crypto = parseInt(document.getElementById('slider-crypto')?.value || 0);
-        return stocks + metals + crypto;
+        let total = 0;
+        sliderConfig.forEach(cfg => {
+            total += parseInt(document.getElementById(`slider-${cfg.id}`)?.value || 0);
+        });
+        return total;
     }
 
     function updateSliderDisplay() {
-        const stocks = parseInt(document.getElementById('slider-stocks')?.value || 0);
-        const metals = parseInt(document.getElementById('slider-metals')?.value || 0);
-        const crypto = parseInt(document.getElementById('slider-crypto')?.value || 0);
-        const total = stocks + metals + crypto;
+        let total = 0;
+        sliderConfig.forEach(cfg => {
+            const val = parseInt(document.getElementById(`slider-${cfg.id}`)?.value || 0);
+            total += val;
+            const valEl = document.getElementById(`${cfg.id}-val`);
+            if (valEl) valEl.textContent = val + '%';
+        });
 
-        const stocksVal = document.getElementById('stocks-val');
-        const metalsVal = document.getElementById('metals-val');
-        const cryptoVal = document.getElementById('crypto-val');
         const totalEl = document.getElementById('total-allocation');
-
-        if (stocksVal) stocksVal.textContent = stocks + '%';
-        if (metalsVal) metalsVal.textContent = metals + '%';
-        if (cryptoVal) cryptoVal.textContent = crypto + '%';
-
         if (totalEl) {
             totalEl.textContent = total + '%';
             totalEl.classList.remove('valid', 'invalid');
@@ -132,16 +140,101 @@ const Risk = (() => {
         slider.style.background = `linear-gradient(to right, #0F172A 0%, #0F172A ${val}%, #E2E8F0 ${val}%, #E2E8F0 100%)`;
     }
 
+    /**
+     * Auto-adjust other sliders when one slider changes.
+     * When slider X changes by delta, distribute -delta proportionally among the OTHER sliders.
+     * This ensures total always stays at 100%.
+     */
+    function autoAdjustSliders(changedId, newValue) {
+        if (isAdjusting) return;
+        isAdjusting = true;
+
+        newValue = Math.max(0, Math.min(100, parseInt(newValue) || 0));
+
+        // Get current values of all sliders
+        const others = [];
+        let othersTotal = 0;
+        sliderConfig.forEach(cfg => {
+            if (cfg.id !== changedId) {
+                const s = document.getElementById(`slider-${cfg.id}`);
+                const v = parseInt(s?.value || 0);
+                others.push({ id: cfg.id, value: v });
+                othersTotal += v;
+            }
+        });
+
+        const remaining = 100 - newValue;
+
+        if (remaining < 0) {
+            // If user set value > 100, clamp it
+            newValue = 100;
+            const slider = document.getElementById(`slider-${changedId}`);
+            if (slider) slider.value = 100;
+            const input = document.getElementById(`input-${changedId}`);
+            if (input) input.value = 100;
+            // Set all others to 0
+            others.forEach(o => {
+                const s = document.getElementById(`slider-${o.id}`);
+                const inp = document.getElementById(`input-${o.id}`);
+                if (s) { s.value = 0; updateSliderBackground(s); }
+                if (inp) inp.value = 0;
+            });
+        } else if (othersTotal === 0) {
+            // All others are 0, distribute remaining to first available
+            if (remaining > 0 && others.length > 0) {
+                // Distribute evenly
+                const perSlider = Math.floor(remaining / others.length);
+                let leftover = remaining - (perSlider * others.length);
+                others.forEach((o, i) => {
+                    const v = perSlider + (i < leftover ? 1 : 0);
+                    const s = document.getElementById(`slider-${o.id}`);
+                    const inp = document.getElementById(`input-${o.id}`);
+                    if (s) { s.value = v; updateSliderBackground(s); }
+                    if (inp) inp.value = v;
+                });
+            }
+        } else {
+            // Distribute remaining proportionally among others
+            let distributed = 0;
+            const newValues = others.map((o, i) => {
+                if (i === others.length - 1) {
+                    // Last one gets the remainder to avoid rounding issues
+                    return remaining - distributed;
+                }
+                const proportional = Math.round((o.value / othersTotal) * remaining);
+                distributed += proportional;
+                return proportional;
+            });
+
+            others.forEach((o, i) => {
+                const v = Math.max(0, newValues[i]);
+                const s = document.getElementById(`slider-${o.id}`);
+                const inp = document.getElementById(`input-${o.id}`);
+                if (s) { s.value = v; updateSliderBackground(s); }
+                if (inp) inp.value = v;
+            });
+        }
+
+        // Update the changed slider display
+        const changedSlider = document.getElementById(`slider-${changedId}`);
+        if (changedSlider) updateSliderBackground(changedSlider);
+
+        updateSliderDisplay();
+        isAdjusting = false;
+    }
+
     function collectData() {
         const budget = parseFloat(document.getElementById('risk-budget')?.value || 0);
         const tolerance = document.querySelector('input[name="risk-tolerance"]:checked')?.value || 'balanced';
         const goal = document.querySelector('input[name="invest-goal"]:checked')?.value || 'wealth';
         const horizon = document.querySelector('input[name="time-horizon"]:checked')?.value || 'medium';
-        const stocks = parseInt(document.getElementById('slider-stocks')?.value || 40);
-        const metals = parseInt(document.getElementById('slider-metals')?.value || 30);
-        const crypto = parseInt(document.getElementById('slider-crypto')?.value || 30);
 
-        return { budget, tolerance, goal, horizon, stocks, metals, crypto };
+        const data = { budget, tolerance, goal, horizon };
+        sliderConfig.forEach(cfg => {
+            data[cfg.id] = parseInt(document.getElementById(`slider-${cfg.id}`)?.value || 0);
+        });
+
+        return data;
     }
 
     function calculateSentimentScore(data) {
@@ -172,17 +265,15 @@ const Risk = (() => {
 
         // Allocation contribution
         if (data.crypto > 30) score += 1;
-        if (data.stocks > 50) score += 0.5;
+        if (data.equity > 50) score += 0.5;
         if (data.metals > 50) score -= 0.5;
 
         // Clamp between 1 and 10
         score = Math.max(1, Math.min(10, score));
 
-        // Determine sentiment category
-        let category;
-        if (score <= 3.5) category = 'conservative';
-        else if (score <= 6.5) category = 'balanced';
-        else category = 'aggressive';
+        // FIX: Strategy category is ALWAYS the user's explicit risk tolerance choice
+        // The sentiment score is informational only, it does NOT override the user's selection
+        const category = data.tolerance;
 
         return { score: Math.round(score * 10) / 10, category };
     }
@@ -230,16 +321,36 @@ const Risk = (() => {
             });
         }
 
-        // Sliders
-        ['stocks', 'metals', 'crypto'].forEach(name => {
-            const slider = document.getElementById(`slider-${name}`);
+        // Sliders — auto-adjust on change
+        sliderConfig.forEach(cfg => {
+            const slider = document.getElementById(`slider-${cfg.id}`);
+            const input = document.getElementById(`input-${cfg.id}`);
+
             if (slider) {
                 slider.addEventListener('input', () => {
-                    updateSliderDisplay();
-                    updateSliderBackground(slider);
+                    const val = parseInt(slider.value) || 0;
+                    if (input) input.value = val;
+                    autoAdjustSliders(cfg.id, val);
                 });
                 // Initialize background
                 updateSliderBackground(slider);
+            }
+
+            if (input) {
+                input.addEventListener('change', () => {
+                    let val = parseInt(input.value) || 0;
+                    val = Math.max(0, Math.min(100, val));
+                    input.value = val;
+                    if (slider) slider.value = val;
+                    autoAdjustSliders(cfg.id, val);
+                });
+                // Also handle live typing
+                input.addEventListener('input', () => {
+                    let val = parseInt(input.value) || 0;
+                    val = Math.max(0, Math.min(100, val));
+                    if (slider) slider.value = val;
+                    autoAdjustSliders(cfg.id, val);
+                });
             }
         });
     }
