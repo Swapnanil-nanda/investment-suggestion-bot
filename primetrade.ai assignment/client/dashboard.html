@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | PrimeTrade.ai - Asset Portal</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation App Header -->
+  <header class="app-header">
+    <div class="container nav-container">
+      <div class="brand-wrapper">
+        <a href="/dashboard.html" class="auth-logo" style="margin-bottom: 0;">PrimeTrade.ai</a>
+        <span id="header-role-badge" class="badge">Role</span>
+      </div>
+      
+      <div class="user-nav-profile">
+        <div class="user-details-text">
+          <div id="nav-user-name" class="user-name">Loading User...</div>
+          <div id="nav-user-email" class="user-role">Loading Email...</div>
+        </div>
+        <button id="logout-btn" class="btn btn-secondary" style="padding: 8px 16px; font-size: 13px;">
+          Log Out 🚪
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container dashboard-grid">
+    
+    <!-- Stats Cards Summary -->
+    <section class="stats-grid">
+      <div class="stat-card glass-card">
+        <span class="stat-label">Total Registered Products</span>
+        <span id="stat-total-products" class="stat-value">0</span>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-label">Active Categories</span>
+        <span id="stat-active-categories" class="stat-value">0 / 4</span>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-label">Low / Out of Stock</span>
+        <span id="stat-out-of-stock" class="stat-value">0</span>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-label">Current Node Server Port</span>
+        <span class="stat-value" style="color: var(--primary)">5000</span>
+      </div>
+    </section>
+
+    <!-- Main Products Workspace -->
+    <section class="products-section">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2 class="section-title">Products Inventory</h2>
+          <span id="total-count-badge" class="badge badge-primary">0 Items</span>
+        </div>
+        <button id="open-create-modal-btn" class="btn btn-primary">
+          Add New Product ➕
+        </button>
+      </div>
+
+      <!-- Controls and Filters -->
+      <div class="control-bar glass-card" style="padding: 16px 20px;">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="form-control" placeholder="Search products by name...">
+        </div>
+        
+        <select id="category-filter" class="form-control filter-select">
+          <option value="">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="clothing">Clothing</option>
+          <option value="food">Food</option>
+          <option value="other">Other</option>
+        </select>
+        
+        <button id="refresh-btn" class="btn btn-secondary">
+          Refresh 🔄
+        </button>
+      </div>
+
+      <!-- Table Wrapper -->
+      <div class="table-wrapper glass-card">
+        <table class="custom-table" id="products-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Created By</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-table-body">
+            <tr>
+              <td colspan="6" class="text-center" style="padding: 40px; color: var(--text-secondary);">
+                Querying database records... ⏳
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination controls -->
+      <div class="pagination-controls">
+        <span id="pagination-info" class="pagination-info">Showing page 1 of 1</span>
+        <div class="pagination-buttons">
+          <button id="prev-page-btn" class="btn btn-secondary" disabled>◀ Prev</button>
+          <button id="next-page-btn" class="btn btn-secondary" disabled>Next ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN ONLY SECTION -->
+    <section id="admin-section" class="admin-panel-section hidden">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2 class="section-title" style="color: #d8b4fe">Admin Control Panel</h2>
+          <span class="badge badge-admin">Role-Based Gate</span>
+        </div>
+      </div>
+      
+      <div class="table-wrapper glass-card">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Full Name</th>
+              <th>Email Address</th>
+              <th>Assigned Role</th>
+              <th>Account Created</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-table-body">
+            <tr>
+              <td colspan="5" class="text-center" style="padding: 20px; color: var(--text-secondary);">
+                Fetching registered users database...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CREATE PRODUCT MODAL -->
+  <div class="modal-overlay" id="create-modal">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Product Entry</h3>
+        <button class="modal-close-btn" onclick="closeModal('create-modal')">&times;</button>
+      </div>
+      <form id="create-product-form">
+        <div class="form-group">
+          <label for="create-name" class="form-label">Product Name</label>
+          <input type="text" id="create-name" class="form-control" placeholder="e.g. Ledger Nano X" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="create-description" class="form-label">Description (Optional)</label>
+          <textarea id="create-description" class="form-control" placeholder="e.g. Next-generation hardware wallet" rows="3"></textarea>
+        </div>
+
+        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <label for="create-price" class="form-label">Price ($ USD)</label>
+            <input type="number" id="create-price" class="form-control" step="0.01" min="0" placeholder="149.99" required>
+          </div>
+          <div>
+            <label for="create-stock" class="form-label">Stock Quantity</label>
+            <input type="number" id="create-stock" class="form-control" min="0" placeholder="50" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="create-category" class="form-label">Category</label>
+          <select id="create-category" class="form-control" required>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="food">Food</option>
+            <option value="other" selected>Other</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('create-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT PRODUCT MODAL -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Product Entry</h3>
+        <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
+      </div>
+      <form id="edit-product-form">
+        <input type="hidden" id="edit-id">
+        
+        <div class="form-group">
+          <label for="edit-name" class="form-label">Product Name</label>
+          <input type="text" id="edit-name" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-description" class="form-label">Description (Optional)</label>
+          <textarea id="edit-description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <label for="edit-price" class="form-label">Price ($ USD)</label>
+            <input type="number" id="edit-price" class="form-control" step="0.01" min="0" required>
+          </div>
+          <div>
+            <label for="edit-stock" class="form-label">Stock Quantity</label>
+            <input type="number" id="edit-stock" class="form-control" min="0" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-category" class="form-label">Category</label>
+          <select id="edit-category" class="form-control" required>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="food">Food</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
